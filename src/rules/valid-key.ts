@@ -1,14 +1,10 @@
-import {
-  AST_NODE_TYPES,
-  ASTUtils,
-  TSESTree,
-} from "@typescript-eslint/experimental-utils";
+import { AST_NODE_TYPES, ASTUtils, TSESTree } from "@typescript-eslint/utils";
 import { closest } from "fastest-levenshtein";
 import { createRule } from "../utils/create-rule";
 import { getSettings } from "../utils/settings";
 import {
-  getTranslations,
   getKeysFromTranslations,
+  getTranslations,
   hasKeyInTranslation,
 } from "../utils/translations";
 
@@ -29,12 +25,12 @@ export default createRule<Options, keyof typeof MESSAGES>({
   meta: {
     docs: {
       description: "Validate i18next keys in Reade code",
-      recommended: "error",
+      recommended: "recommended",
       requiresTypeChecking: false,
     },
     messages: MESSAGES,
     type: "problem",
-    schema: {},
+    schema: [],
   },
   defaultOptions: [],
   create: function (context) {

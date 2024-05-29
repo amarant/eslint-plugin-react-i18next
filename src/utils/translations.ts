@@ -1,8 +1,8 @@
-import * as fs from "fs";
 import fastGlob from "fast-glob";
-import flat from "flat";
-import { TranslationFilesFormat } from "./settings";
+import { flatten } from "flat";
+import * as fs from "fs";
 import has from "lodash.has";
+import { TranslationFilesFormat } from "./settings";
 
 export type Translation = object;
 export type Translations = Record<string, Translation>;
@@ -43,7 +43,7 @@ export function getKeysFromTranslations(
       if (format === TranslationFilesFormat.Flat) {
         return Object.keys(translation);
       }
-      return Object.keys(flat(translation));
+      return Object.keys(flatten(translation));
     })
   );
 }

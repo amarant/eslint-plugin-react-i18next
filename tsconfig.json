@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "lib": ["es2015"],
-    "module": "commonjs",
+    "module": "NodeNext",
     "target": "ES2015",
     "outDir": "dist",
     "resolveJsonModule": true,
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "NodeNext"
   }
 }

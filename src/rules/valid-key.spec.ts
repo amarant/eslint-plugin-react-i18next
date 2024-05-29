@@ -1,4 +1,4 @@
-import { RuleTester } from "@typescript-eslint/experimental-utils/dist/eslint-utils";
+import { RuleTester } from "@typescript-eslint/rule-tester";
 import { RawSettings } from "../utils/settings";
 import rule from "./valid-key";
 

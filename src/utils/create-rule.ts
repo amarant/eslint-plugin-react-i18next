@@ -1,4 +1,4 @@
-import { ESLintUtils } from "@typescript-eslint/experimental-utils";
+import { ESLintUtils } from "@typescript-eslint/utils";
 
 const REPOSITORY = "https://github.com/flycode-org/eslint-plugin-react-i18next";
 const DEFAULT_BRANCH = "master";
