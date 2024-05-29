@@ -111,24 +111,20 @@ export default createRule<Options, keyof typeof MESSAGES>({
 
       const key = staticValue.value;
 
-      if (hasCountProperty) {
-        let hasNonExistingKey = nonExistingKeyReport(`${key}_one`, node);
-        hasNonExistingKey ||= nonExistingKeyReport(`${key}_other`, node);
-        if (hasNonExistingKey) {
-          return;
-        }
-      } else {
-        if (nonExistingKeyReport(key, node)) {
-          return;
-        }
+      const keysToCheck = hasCountProperty
+        ? [`${key}_one`, `${key}_other`]
+        : [key];
+
+      if (
+        keysToCheck.reduce(
+          (acc, key) => nonExistingKeyReport(key, node) || acc,
+          false
+        )
+      ) {
+        return;
       }
 
-      if (hasCountProperty) {
-        missingKeyInFileReport(`${key}_one`, node);
-        missingKeyInFileReport(`${key}_other`, node);
-      } else {
-        missingKeyInFileReport(key, node);
-      }
+      keysToCheck.forEach((key) => missingKeyInFileReport(key, node));
     };
 
     return {

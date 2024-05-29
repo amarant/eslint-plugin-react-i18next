@@ -12,7 +12,7 @@ const ruleTester = new RuleTester({
 });
 
 const FLAT_SETTINGS: RawSettings = {
-  "@flycode-org/react-i18next": {
+  "@amarant/react-i18next": {
     translationFiles: {
       location: "test/fixtures/flat/*.json",
       format: "flat",
@@ -21,7 +21,7 @@ const FLAT_SETTINGS: RawSettings = {
 };
 
 const NESTED_SETTINGS: RawSettings = {
-  "@flycode-org/react-i18next": {
+  "@amarant/react-i18next": {
     translationFiles: {
       location: "test/fixtures/nested/*.json",
       format: "nested",

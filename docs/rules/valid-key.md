@@ -1,4 +1,4 @@
-# `@flycode-org/react-i18next/valid-key`
+# `@amarant/react-i18next/valid-key`
 
 ## Short Description
 
@@ -13,10 +13,10 @@ This rule validates the value of the `i18nKey` attribute evaluates to a key that
 ```json
 {
   "rules": {
-    "@flycode-org/react-i18next/valid-key": "error"
+    "@amarant/react-i18next/valid-key": "error"
   },
   "settings": {
-    "@flycode-org/react-i18next": {
+    "@amarant/react-i18next": {
       "translationFiles": {
         "location": "public/locales/*/translation.json",
         "format": "flat"

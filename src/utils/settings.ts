@@ -1,7 +1,7 @@
 export type RawSettingsTranslationFilesLocation = string | string[];
 export type RawSettingsTranslationFilesFormat = string;
 export type RawSettings = {
-  "@flycode-org/react-i18next"?: {
+  "@amarant/react-i18next"?: {
     translationFiles?: {
       location?: RawSettingsTranslationFilesLocation;
       format?: RawSettingsTranslationFilesFormat;
@@ -36,7 +36,7 @@ const RAW_FORMAT_TO_TRANSLATION_FILES_FORMAT: {
 };
 
 export function getSettings(context: { settings: RawSettings }): Settings {
-  const rawSettings = context.settings["@flycode-org/react-i18next"];
+  const rawSettings = context.settings["@amarant/react-i18next"];
   const rawLocation = rawSettings?.translationFiles?.location;
   const rawFormat = rawSettings?.translationFiles?.format;
   return {

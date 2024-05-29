@@ -5,20 +5,20 @@ ESLint rules for [react-i18next](https://react.i18next.com/)
 ## Installation
 
 ```bash
-npm install --save-dev @flycode-org/eslint-plugin-react-i18next
+npm install --save-dev @amarant/eslint-plugin-react-i18next
 ```
 
 or
 
 ```bash
-yarn add --dev @flycode-org/eslint-plugin-react-i18next
+yarn add --dev @amarant/eslint-plugin-react-i18next
 ```
 
 ## List of supported rules
 
-| Rule                                                                | Description                                     |
-| ------------------------------------------------------------------- | ----------------------------------------------- |
-| [`@flycode-org/react-i18next/valid-key`](./docs/rules/valid-key.md) | Check all keys being used in the code are valid |
+| Rule                                                            | Description                                     |
+| --------------------------------------------------------------- | ----------------------------------------------- |
+| [`@amarant/react-i18next/valid-key`](./docs/rules/valid-key.md) | Check all keys being used in the code are valid |
 
 ## The next step
 
