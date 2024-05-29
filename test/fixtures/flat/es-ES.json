@@ -1,3 +1,6 @@
 {
-  "valid": "Válida"
+  "valid": "Válida",
+  "withCount_one": "one",
+  "withCount_other": "other",
+  "withCountOnlyOne_one": "one"
 }

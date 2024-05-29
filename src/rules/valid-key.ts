@@ -50,11 +50,48 @@ export default createRule<Options, keyof typeof MESSAGES>({
     );
     const keysArray = Array.from(keys);
 
+    const nonExistingKeyReport = (key: string, node: TSESTree.Node) => {
+      if (!keys.has(key)) {
+        context.report({
+          messageId: "non-existing-key",
+          node,
+          data: {
+            key,
+            closestKey: closest(key, keysArray),
+          },
+        });
+        return true;
+      }
+      return false;
+    };
+
+    const missingKeyInFileReport = (key: string, node: TSESTree.Node) => {
+      for (const [filePath, translation] of Object.entries(translations)) {
+        if (
+          !hasKeyInTranslation(
+            settings.translationFiles.format,
+            translation,
+            key
+          )
+        ) {
+          context.report({
+            messageId: "missing-key-in-file",
+            node,
+            data: {
+              key,
+              filePath,
+            },
+          });
+        }
+      }
+    };
+
     const validateStaticValue = (
       node: TSESTree.Node,
       staticValue: {
         value: unknown;
-      } | null
+      } | null,
+      hasCountProperty: boolean
     ) => {
       if (!staticValue) {
         context.report({
@@ -74,35 +111,23 @@ export default createRule<Options, keyof typeof MESSAGES>({
 
       const key = staticValue.value;
 
-      if (!keys.has(key)) {
-        context.report({
-          messageId: "non-existing-key",
-          node,
-          data: {
-            key,
-            closestKey: closest(key, keysArray),
-          },
-        });
-        return;
+      if (hasCountProperty) {
+        let hasNonExistingKey = nonExistingKeyReport(`${key}_one`, node);
+        hasNonExistingKey ||= nonExistingKeyReport(`${key}_other`, node);
+        if (hasNonExistingKey) {
+          return;
+        }
+      } else {
+        if (nonExistingKeyReport(key, node)) {
+          return;
+        }
       }
 
-      for (const [filePath, translation] of Object.entries(translations)) {
-        if (
-          !hasKeyInTranslation(
-            settings.translationFiles.format,
-            translation,
-            key
-          )
-        ) {
-          context.report({
-            messageId: "missing-key-in-file",
-            node,
-            data: {
-              key,
-              filePath,
-            },
-          });
-        }
+      if (hasCountProperty) {
+        missingKeyInFileReport(`${key}_one`, node);
+        missingKeyInFileReport(`${key}_other`, node);
+      } else {
+        missingKeyInFileReport(key, node);
       }
     };
 
@@ -131,7 +156,7 @@ export default createRule<Options, keyof typeof MESSAGES>({
             context.getScope()
           );
 
-          validateStaticValue(attribute, staticValue);
+          validateStaticValue(attribute, staticValue, false);
         }
       },
       CallExpression: (expression) => {
@@ -142,12 +167,22 @@ export default createRule<Options, keyof typeof MESSAGES>({
           if (!expression.arguments.length) {
             return;
           }
-          const [firstArgument] = expression.arguments;
+          const [firstArgument, secondArgument] = expression.arguments;
           const staticValue = ASTUtils.getStaticValue(
             firstArgument,
             context.getScope()
           );
-          validateStaticValue(firstArgument, staticValue);
+          // check if second argument is an object with a count property
+          const hasCountProperty =
+            secondArgument &&
+            secondArgument.type === AST_NODE_TYPES.ObjectExpression &&
+            secondArgument.properties.some(
+              (property) =>
+                property.type === AST_NODE_TYPES.Property &&
+                property.key.type === AST_NODE_TYPES.Identifier &&
+                property.key.name === "count"
+            );
+          validateStaticValue(firstArgument, staticValue, hasCountProperty);
         }
       },
     };

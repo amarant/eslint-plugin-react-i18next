@@ -1,4 +1,7 @@
 {
   "valid": "Valid",
-  "onlyInEn": "Only in English"
+  "onlyInEn": "Only in English",
+  "withCount_one": "one",
+  "withCount_other": "other",
+  "withCountOnlyOne_one": "one"
 }

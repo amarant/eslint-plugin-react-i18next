@@ -47,6 +47,10 @@ ruleTester.run("valid-key", rule, {
       code: `t("nested.valid")`,
       settings: NESTED_SETTINGS,
     },
+    {
+      code: `t("withCount", { count: 42 })`,
+      settings: FLAT_SETTINGS,
+    },
   ],
   invalid: [
     {
@@ -173,6 +177,19 @@ ruleTester.run("valid-key", rule, {
           data: {
             key: "onlyInEn",
             filePath: "test/fixtures/flat/es-ES.json",
+          },
+        },
+      ],
+    },
+    {
+      code: `t("withCountOnlyOne", { count: 42 })`,
+      settings: FLAT_SETTINGS,
+      errors: [
+        {
+          messageId: "non-existing-key",
+          data: {
+            key: "withCountOnlyOne_other",
+            closestKey: "withCountOnlyOne_one",
           },
         },
       ],
