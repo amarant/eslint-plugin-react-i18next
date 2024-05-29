@@ -1,5 +1,5 @@
 {
-  "name": "@flycode-org/eslint-plugin-react-i18next",
+  "name": "@amarant/eslint-plugin-react-i18next",
   "description": "ESLint rules for react-i18next",
   "version": "1.1.0",
   "license": "MIT",
@@ -44,14 +44,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/flycode-org/eslint-plugin-react-i18next.git"
+    "url": "git+ssh://git@github.com/amarant/eslint-plugin-react-i18next.git"
   },
   "author": "Iddan Aaronsohn <mail@aniddan.com>",
+  "contributors": [
+    "Arnaud Marant <arnaudmarant@gmail.com>"
+  ],
   "private": false,
   "bugs": {
-    "url": "https://github.com/flycode-org/eslint-plugin-react-i18next/issues"
+    "url": "https://github.com/amarant/eslint-plugin-react-i18next/issues"
   },
-  "homepage": "https://github.com/flycode-org/eslint-plugin-react-i18next#readme",
+  "homepage": "https://github.com/amarant/eslint-plugin-react-i18next#readme",
   "directories": {
     "doc": "docs",
     "test": "test"
