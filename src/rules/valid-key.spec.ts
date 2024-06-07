@@ -48,6 +48,10 @@ ruleTester.run("valid-key", rule, {
       settings: NESTED_SETTINGS,
     },
     {
+      code: `i18n.t("nested.valid")`,
+      settings: NESTED_SETTINGS,
+    },
+    {
       code: `t("withCount", { count: 42 })`,
       settings: FLAT_SETTINGS,
     },
@@ -124,6 +128,16 @@ ruleTester.run("valid-key", rule, {
     },
     {
       code: `t(dynamicKey)`,
+      settings: FLAT_SETTINGS,
+      errors: [
+        {
+          messageId: "dynamic-key",
+          data: { filePath: "test/fixtures/flat/en-US.json" },
+        },
+      ],
+    },
+    {
+      code: `i18n.t(dynamicKey)`,
       settings: FLAT_SETTINGS,
       errors: [
         {

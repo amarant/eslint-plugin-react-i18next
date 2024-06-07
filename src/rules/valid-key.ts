@@ -1,4 +1,5 @@
 import { AST_NODE_TYPES, ASTUtils, TSESTree } from "@typescript-eslint/utils";
+import { isNodeOfType } from "@typescript-eslint/utils/ast-utils";
 import { closest } from "fastest-levenshtein";
 import { createRule } from "../utils/create-rule";
 import { getSettings } from "../utils/settings";
@@ -156,9 +157,11 @@ export default createRule<Options, keyof typeof MESSAGES>({
         }
       },
       CallExpression: (expression) => {
+        // console.log(expression);
+        const dotNotation = callExpressionToDotNotation(expression);
         if (
-          ASTUtils.isIdentifier(expression.callee) &&
-          expression.callee.name === "t"
+          dotNotation !== "" &&
+          settings.translationFunctions.includes(dotNotation)
         ) {
           if (!expression.arguments.length) {
             return;
@@ -184,6 +187,24 @@ export default createRule<Options, keyof typeof MESSAGES>({
     };
   },
 });
+
+function callExpressionToDotNotation(
+  expression: TSESTree.CallExpression
+): string {
+  const { callee } = expression;
+  if (ASTUtils.isIdentifier(callee)) {
+    return callee.name;
+  }
+
+  if (
+    isNodeOfType(AST_NODE_TYPES.MemberExpression)(callee) &&
+    ASTUtils.isIdentifier(callee.object) &&
+    ASTUtils.isIdentifier(callee.property)
+  ) {
+    return `${callee.object.name}.${callee.property.name}`;
+  }
+  return "";
+}
 
 function isTransElement(element: TSESTree.JSXElement): boolean {
   return (

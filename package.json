@@ -1,7 +1,7 @@
 {
   "name": "@amarant/eslint-plugin-react-i18next",
   "description": "ESLint rules for react-i18next",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {

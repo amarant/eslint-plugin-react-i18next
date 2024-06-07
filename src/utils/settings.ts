@@ -1,4 +1,5 @@
 export type RawSettingsTranslationFilesLocation = string | string[];
+export type RawSettingsTranslationFunctions = string | string[];
 export type RawSettingsTranslationFilesFormat = string;
 export type RawSettings = {
   "@amarant/react-i18next"?: {
@@ -6,6 +7,7 @@ export type RawSettings = {
       location?: RawSettingsTranslationFilesLocation;
       format?: RawSettingsTranslationFilesFormat;
     };
+    translationFunctions?: RawSettingsTranslationFilesLocation;
   };
 };
 
@@ -22,6 +24,8 @@ export type Settings = {
     /** The format of the translation files */
     format: TranslationFilesFormat;
   };
+  /** The translation functions */
+  translationFunctions: string[];
 };
 
 const DEFAULT_TRANSLATION_FILES_LOCATION = [
@@ -34,11 +38,13 @@ const RAW_FORMAT_TO_TRANSLATION_FILES_FORMAT: {
   flat: TranslationFilesFormat.Flat,
   nested: TranslationFilesFormat.Nested,
 };
+const DEFAULT_TRANSLATION_FUNCTIONS = ["t", "i18n.t"];
 
 export function getSettings(context: { settings: RawSettings }): Settings {
   const rawSettings = context.settings["@amarant/react-i18next"];
   const rawLocation = rawSettings?.translationFiles?.location;
   const rawFormat = rawSettings?.translationFiles?.format;
+  const rawTranslationFunctions = rawSettings?.translationFunctions;
   return {
     translationFiles: {
       location: rawLocation
@@ -48,6 +54,9 @@ export function getSettings(context: { settings: RawSettings }): Settings {
         ? toFormat(rawFormat)
         : DEFAULT_TRANSLATION_FILES_FORMAT,
     },
+    translationFunctions: rawTranslationFunctions
+      ? normalizeTranslationFunctions(rawTranslationFunctions)
+      : DEFAULT_TRANSLATION_FUNCTIONS,
   };
 }
 
@@ -55,6 +64,12 @@ function normalizeTranslationFiles(
   rawFiles: RawSettingsTranslationFilesLocation
 ): string[] {
   return Array.isArray(rawFiles) ? rawFiles : [rawFiles];
+}
+
+function normalizeTranslationFunctions(
+  rawFunctions: RawSettingsTranslationFunctions
+): string[] {
+  return Array.isArray(rawFunctions) ? rawFunctions : [rawFunctions];
 }
 
 function toFormat(
