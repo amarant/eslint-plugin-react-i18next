@@ -26,8 +26,8 @@ export default createRule<Options, keyof typeof MESSAGES>({
   meta: {
     docs: {
       description: "Validate i18next keys in Reade code",
-      recommended: "recommended",
-      requiresTypeChecking: false,
+      // recommended: "recommended",
+      // requiresTypeChecking: false,
     },
     messages: MESSAGES,
     type: "problem",
@@ -150,7 +150,7 @@ export default createRule<Options, keyof typeof MESSAGES>({
             attribute.value.type === AST_NODE_TYPES.JSXExpressionContainer
               ? attribute.value.expression
               : attribute.value,
-            context.getScope()
+            context.sourceCode.getScope(attribute.value)
           );
 
           validateStaticValue(attribute, staticValue, false);
@@ -169,7 +169,7 @@ export default createRule<Options, keyof typeof MESSAGES>({
           const [firstArgument, secondArgument] = expression.arguments;
           const staticValue = ASTUtils.getStaticValue(
             firstArgument,
-            context.getScope()
+            context.sourceCode.getScope(firstArgument)
           );
           // check if second argument is an object with a count property
           const hasCountProperty =

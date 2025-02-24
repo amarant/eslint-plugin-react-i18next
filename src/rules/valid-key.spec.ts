@@ -3,13 +3,14 @@ import { RawSettings } from "../utils/settings";
 import rule from "./valid-key";
 
 const ruleTester = new RuleTester({
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parserOptions: {
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
-});
+} as any);
 
 const FLAT_SETTINGS: RawSettings = {
   "@amarant/react-i18next": {
@@ -26,6 +27,16 @@ const NESTED_SETTINGS: RawSettings = {
       location: "test/fixtures/nested/*.json",
       format: "nested",
     },
+  },
+};
+
+const CUSTOM_TRANSLATION_FUNCTIONS_SETTINGS: RawSettings = {
+  "@amarant/react-i18next": {
+    translationFiles: {
+      location: "test/fixtures/nested/*.json",
+      format: "nested",
+    },
+    translationFunctions: ["t", "i18n.t", "tv"],
   },
 };
 
@@ -204,6 +215,32 @@ ruleTester.run("valid-key", rule, {
           data: {
             key: "withCountOnlyOne_other",
             closestKey: "withCountOnlyOne_one",
+          },
+        },
+      ],
+    },
+    {
+      code: `tv("nested.invalid")`,
+      settings: CUSTOM_TRANSLATION_FUNCTIONS_SETTINGS,
+      errors: [
+        {
+          messageId: "non-existing-key",
+          data: {
+            key: "nested.invalid",
+            closestKey: "nested.valid",
+          },
+        },
+      ],
+    },
+    {
+      code: `i18n.t("nested.invalid")`,
+      settings: CUSTOM_TRANSLATION_FUNCTIONS_SETTINGS,
+      errors: [
+        {
+          messageId: "non-existing-key",
+          data: {
+            key: "nested.invalid",
+            closestKey: "nested.valid",
           },
         },
       ],
